@@ -34,6 +34,12 @@ jobs:
     - uses: actions/setup-go@v7
       with: { go-version: stable }
 
+    - name: Cache Go modules
+      uses: actions/cache@v4
+      with:
+        path: ~/go/pkg/mod
+        key: ${{ runner.os }}-go-${{ hashFiles('go.mod', 'go.sum') }}
+
     - name: Format
       run: gofmt -s -w . && git diff --exit-code
       if: matrix.os != 'windows-latest'
